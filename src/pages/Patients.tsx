@@ -11,7 +11,8 @@ import { PatientCard } from "../components/PatientCard";
 import { schema, type Inputs, type IPatient } from "../types/patient";
 import Model from "../components/Model";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod/src/index.js";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { toast } from 'react-toastify'
 
 import { useEffect } from "react";
