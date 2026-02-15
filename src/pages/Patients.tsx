@@ -24,7 +24,7 @@ export default function Pateints() {
     });
     const [show, setShow] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
-    const [selectedPaitient, setSelectedPatient] = useState<null | IPatient>(null)
+    const [selectedPatient, setSelectedPatient] = useState<null | IPatient>(null)
     const {
         register,
         handleSubmit,
@@ -61,7 +61,12 @@ export default function Pateints() {
 
         const newPatient: IPatient = {
             id: Date.now(),
-            ...data,
+            blood: data.blood,
+            bookingType: data.bookingType,
+            bookingDate: data.bookingDate,
+            name: data.name,
+            phone: data.phone,
+            status: data.status,
         };
 
         setPatients((prev) => [...prev, newPatient]);
@@ -124,8 +129,8 @@ export default function Pateints() {
             }
             {showDelete && <ConfirmModel
                 closeDeleteHandler={closeDeleteHandler}
-                deleteHandler={() => deleteHandler(selectedPaitient?.id!)}
-                name={selectedPaitient?.name!}
+                deleteHandler={() => deleteHandler?.(selectedPatient?.id!)}
+                name={selectedPatient?.name!}
             />
             }
         </div>
