@@ -31,7 +31,7 @@ export default function Pateints() {
         reset,
         formState: { errors, isSubmitting },
 
-    } = useForm<Inputs>({
+    } = useForm({
         resolver: zodResolver(schema),
         mode: "onChange"
     });
