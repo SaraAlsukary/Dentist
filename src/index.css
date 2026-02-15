@@ -3,10 +3,27 @@
   margin: 0;
   padding: 0;
 }
-.patient-card  {
-  transition: all 0.2s ease;
+
+html {
+  scroll-behavior: smooth;
 }
-.patient-card .card-text {
+
+body {
+  font-family: cursive;
+}
+
+.patient-card {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.patient-card .close {
+  position: absolute;
+  right: -7px;
+  top: -21px;
+}
+
+.patient-card .card-body {
   cursor: grab;
 }
 
@@ -14,6 +31,7 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
+
 .modal-backdrop {
   position: fixed;
   top: 0;

@@ -33,11 +33,15 @@ export const PatientCard = ({ patient, deleteConfirmHandler }: { patient: IPatie
             ref={setNodeRef}
             style={style}
 
-            className="card mb-3 shadow-sm "
+            className="card mb-3 shadow-sm patient-card"
         >
-            <div className="card-body patient-card">
+            {patient.status !== 'waiting' && patient.bookingType === "scheduled" ?
+                <i className="bi bi-x-circle text-danger close" style={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => deleteConfirmHandler!(patient.id!)}></i>
+                : ""}
+            <div className="card-body ">
+
                 <h5 className="card-title">{patient.name}</h5>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between align-items-start">
                     <p className="card-text "
                         {...listeners}
                         {...attributes}>
@@ -48,10 +52,6 @@ export const PatientCard = ({ patient, deleteConfirmHandler }: { patient: IPatie
                     </p>
                     <div className='pl-1'>
                         <i className={`bi bi-person-circle  ${personStyle(patient?.status)}`} style={{ fontSize: "3.5rem" }}></i>
-                        {patient.status !== 'waiting' && patient.bookingType === "scheduled" ?
-                            <div className='d-flex align-items-end '>
-                                <button className="btn btn-danger mb-4" onClick={() => deleteConfirmHandler!(patient.id!)}>Delete</button>
-                            </div> : ""}
                     </div>
 
                 </div>
