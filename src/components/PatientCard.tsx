@@ -22,7 +22,7 @@ const PatientCard = ({ patient, deleteConfirmHandler, editHandler }: PatientCard
 
     return (
         <div className="card mb-3 shadow-sm patient-card animate__animated animate__fadeIn">
-            {patient.status !== "waiting" && patient.bookingType === "scheduled" && deleteConfirmHandler && (
+            {patient.status === "appointment" && patient.bookingType === "scheduled" && deleteConfirmHandler && (
                 <i
                     className="bi bi-x-circle text-danger close"
                     style={{ fontSize: "2rem", cursor: "pointer" }}
