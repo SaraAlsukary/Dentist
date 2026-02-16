@@ -11,6 +11,6 @@ export const schema = z.object({
 
 export type Inputs = z.infer<typeof schema>;
 
-export interface IPatient extends Inputs {
+export type IPatient extends Inputs {
     id: number;
 }
