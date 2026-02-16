@@ -7,7 +7,6 @@ import { schema, type Inputs, type IPatient } from "../types/patient";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
-import "animate.css";
 import AddPatientModel from "../components/AddPatientModal";
 import DeletePatientModal from "../components/DeletePatientModal";
 import EditStatusModal from "../components/EditStatusModal";
