@@ -78,7 +78,7 @@ export default function Pateints() {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Dentist Clinic Dashboard (Drag & Drop)</h2>
+      <h2 className="text-center mb-4">Dentist Clinic Dashboard </h2>
 
       <div className="d-flex justify-content-center align-items-center w-full">
         <button
