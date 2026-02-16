@@ -27,11 +27,6 @@ body {
   top: -21px;
 }
 
-.patient-card .card-body {
-  cursor: grab;
-}
-
-
 
 .modal-backdrop {
   position: fixed;
