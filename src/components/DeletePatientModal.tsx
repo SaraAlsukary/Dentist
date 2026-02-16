@@ -5,13 +5,13 @@ interface ModelProps {
     deleteHandler: () => void;
     name: string;
 }
-const Model = ({
+const DeletePatientModal = ({
     closeDeleteHandler,
     name,
     deleteHandler,
 }: ModelProps) => {
     return (
-        <div className="modal-backdrop d-flex justify-content-center align-items-center ">
+        <div className="modal-backdrop d-flex justify-content-center align-items-center animate__animated animate__fadeIn ">
             <div className="card shadow-lg p-3 rounded-4" style={{ width: "400px" }}>
                 <div className="card-header d-flex justify-content-between align-items-center">
                     <h5 className="m-0">Delete Patient</h5>
@@ -46,4 +46,4 @@ const Model = ({
     );
 };
 
-export default Model;
+export default DeletePatientModal;

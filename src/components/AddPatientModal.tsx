@@ -9,14 +9,14 @@ interface ModelProps {
     errors: FieldErrors<Inputs>;
     isSubmitting: boolean;
 }
-const Model = ({
+const AddPatientModel = ({
     showHandler,
     submitHandler,
     register,
     errors,
     isSubmitting }: ModelProps) => {
     return (
-        <div className="modal-backdrop d-flex justify-content-center align-items-center ">
+        <div className="modal-backdrop d-flex justify-content-center align-items-center animate__animated animate__fadeInDown ">
             <div className="card shadow-lg p-3 rounded-4" style={{ width: "400px" }}>
                 <div className="card-header d-flex justify-content-between align-items-center">
                     <h5 className="m-0">Add Patient</h5>
@@ -61,6 +61,10 @@ const Model = ({
                             <option value="A+">A+</option>
                             <option value="B+">B+</option>
                             <option value="O+">O+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="A-">A-</option>
+                            <option value="B-">B-</option>
+                            <option value="O-">O-</option>
                         </select>
                         {errors.blood && (
                             <small className="text-danger">
@@ -137,10 +141,10 @@ const Model = ({
                 </form>
 
 
-                
+
             </div>
         </div>
     );
 };
 
-export default Model;
+export default AddPatientModel;

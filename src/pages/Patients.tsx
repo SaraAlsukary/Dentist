@@ -1,30 +1,28 @@
 import { useState, useEffect } from "react";
-import {
-  DndContext,
-  closestCenter,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
+
 import { initialPatients } from "../data/mockdata";
 import Column from "../components/Column";
 import PatientCard from "../components/PatientCard";
 import { schema, type Inputs, type IPatient } from "../types/patient";
-import Model from "../components/Model";
-import ConfirmModel from "../components/ConfirmModel";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import "animate.css";
+import AddPatientModel from "../components/AddPatientModal";
+import DeletePatientModal from "../components/DeletePatientModal";
+import EditStatusModal from "../components/EditStatusModal";
 
 export default function Pateints() {
   const [patients, setPatients] = useState<IPatient[]>(() => {
     const stored = localStorage.getItem("patients");
     return stored ? JSON.parse(stored) : initialPatients;
   });
+
+
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
   const [selectedPatient, setSelectedPatient] = useState<IPatient | null>(null);
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
@@ -33,20 +31,9 @@ export default function Pateints() {
       mode: "onChange",
     });
 
-  
-  const sensors = useSensors(useSensor(PointerSensor));
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over) return;
 
-    const patientId = active.id as number;
-    const newStatus = over.id as IPatient["status"];
 
-    setPatients(prev =>
-      prev.map(p => (p.id === patientId ? { ...p, status: newStatus } : p))
-    );
-  };
 
   const submitHandler = (data: Inputs) => {
     const newPatient: IPatient = { id: Date.now(), ...data };
@@ -55,10 +42,24 @@ export default function Pateints() {
     reset();
     setShow(false);
   };
+  const handleEditSubmit = (id: number, newStatus: IPatient['status']) => {
+    setPatients((prev) =>
+      prev.map((p) =>
+        p.id === id ? { ...p, status: newStatus } : p
+      )
+    );
+
+    toast.success("Patient status updated ✅");
+    closeEditHandler();
+  };
 
   const deleteConfirmHandler = (id: number) => {
     setSelectedPatient(patients.find(p => p.id === id)!);
     setShowDelete(true);
+  };
+  const editHandler = (id: number) => {
+    setSelectedPatient(patients.find(p => p.id === id)!);
+    setShowEdit(true);
   };
 
   const deleteHandler = (id: number) => {
@@ -69,8 +70,9 @@ export default function Pateints() {
 
   const closeHandler = () => setShow(false);
   const closeDeleteHandler = () => setShowDelete(false);
+  const closeEditHandler = () => setShowEdit(false);
 
-  
+
   useEffect(() => {
     localStorage.setItem("patients", JSON.stringify(patients));
   }, [patients]);
@@ -88,67 +90,69 @@ export default function Pateints() {
         </button>
       </div>
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="row">
-          <Column id="waiting" title="Waiting" color="text-warning">
-            {patients
-              .filter(p => p.status === "waiting")
-              .map(patient => (
-                <PatientCard
-                  key={patient.id}
-                  patient={patient}
-                  deleteConfirmHandler={deleteConfirmHandler}
-                />
-              ))}
-          </Column>
+      <div className="row">
+        <Column id="waiting" title="Waiting" color="text-warning">
+          {patients
+            .filter(p => p.status === "waiting")
+            .map(patient => (
+              <PatientCard
+                editHandler={editHandler}
+                key={patient.id}
+                patient={patient}
+                deleteConfirmHandler={deleteConfirmHandler}
+              />
+            ))}
+        </Column>
 
-          <Column id="appointment" title="Appointments" color="text-primary">
-            {patients
-              .filter(p => p.status === "appointment")
-              .map(patient => (
-                <PatientCard
-                  key={patient.id}
-                  patient={patient}
-                  deleteConfirmHandler={deleteConfirmHandler}
-                />
-              ))}
-          </Column>
+        <Column id="appointment" title="Appointments" color="text-primary">
+          {patients
+            .filter(p => p.status === "appointment")
+            .map(patient => (
+              <PatientCard
+                editHandler={editHandler}
+                key={patient.id}
+                patient={patient}
+                deleteConfirmHandler={deleteConfirmHandler}
+              />
+            ))}
+        </Column>
 
-          <Column id="treatment" title="In Treatment" color="text-success">
-            {patients
-              .filter(p => p.status === "treatment")
-              .map(patient => (
-                <PatientCard
-                  key={patient.id}
-                  patient={patient}
-                  deleteConfirmHandler={deleteConfirmHandler}
-                />
-              ))}
-          </Column>
-        </div>
-      </DndContext>
+        <Column id="treatment" title="In Treatment" color="text-success">
+          {patients
+            .filter(p => p.status === "treatment")
+            .map(patient => (
+              <PatientCard
+                key={patient.id}
+                patient={patient}
+                editHandler={editHandler}
+                deleteConfirmHandler={deleteConfirmHandler}
+              />
+            ))}
+        </Column>
+      </div>
+
 
       {show && (
-        <Model
+        <AddPatientModel
           showHandler={closeHandler}
           submitHandler={handleSubmit(submitHandler)}
           register={register}
           errors={errors}
           isSubmitting={isSubmitting}
-          className="animate__animated animate__fadeInDown"
         />
       )}
-
+      {showEdit && selectedPatient && (
+        <EditStatusModal
+          handleEditSubmit={handleEditSubmit}
+          patient={selectedPatient}
+          close={closeEditHandler}
+        />
+      )}
       {showDelete && selectedPatient && (
-        <ConfirmModel
+        <DeletePatientModal
           closeDeleteHandler={closeDeleteHandler}
           deleteHandler={() => deleteHandler(selectedPatient.id)}
           name={selectedPatient.name}
-          className="animate__animated animate__fadeIn"
         />
       )}
     </div>

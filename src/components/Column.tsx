@@ -1,4 +1,3 @@
-import { useDroppable } from "@dnd-kit/core";
 
 import type { JSX } from "react";
 
@@ -8,8 +7,7 @@ interface IProps {
     color: string;
     children: JSX.Element[];
 }
-function Column({ id, title, color, children }: IProps) {
-    const { setNodeRef } = useDroppable({ id });
+function Column({ title, color, children }: IProps) {
 
     return (
         <div className="col-md-4">
@@ -18,7 +16,6 @@ function Column({ id, title, color, children }: IProps) {
             </h4>
 
             <div
-                ref={setNodeRef}
                 className="p-2 bg-light rounded"
                 style={{ minHeight: "250px" }}
             >
