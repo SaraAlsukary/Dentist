@@ -13,8 +13,12 @@ body {
 }
 
 .patient-card {
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
+}
+.patient-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .patient-card .close {
@@ -27,10 +31,7 @@ body {
   cursor: grab;
 }
 
-.patient-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
+
 
 .modal-backdrop {
   position: fixed;
